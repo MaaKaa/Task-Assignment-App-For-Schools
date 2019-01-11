@@ -11,33 +11,52 @@ public class Exercise {
     private String title;
     private String description;
 
-    public void saveExerciseToDB(Connection connection){
-        try {
-            if (this.id == 0) {
-                String sql = "INSERT INTO exercise (title, description) VALUES (?, ?);";
-                String[] generatedColumns = { "ID" };
-                PreparedStatement preparedStatement = connection.prepareStatement(sql, generatedColumns);
-                preparedStatement.setString(1, this.title);
-                preparedStatement.setString(2, this.description);
-                preparedStatement.executeUpdate();
-                ResultSet resultSet = preparedStatement.getGeneratedKeys();
-                if (resultSet.next()) {
-                    this.id = resultSet.getInt(1);
-                } else {
-                    String sql2 = "UPDATE exercise SET title=?, description=? where id = ?";
-                    PreparedStatement preparedStatement2 = connection.prepareStatement(sql);
-                    preparedStatement.setString(1, this.title);
-                    preparedStatement.setString(2, this.description);
-                    preparedStatement.setInt(3, this.id);
-                    preparedStatement.executeUpdate();
-                }
+    public Exercise(){}
+
+    public Exercise(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void saveToDB(Connection connection) throws SQLException {
+        if (this.id == 0) {
+            String sql = "INSERT INTO exercise (title, description) VALUES (?, ?);";
+            String[] generatedColumns = {"ID"};
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, generatedColumns);
+            preparedStatement.setString(1, this.title);
+            preparedStatement.setString(2, this.description);
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                this.id = resultSet.getInt(1);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } else {
+            String sql2 = "UPDATE exercise SET title=?, description=? where id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql2);
+            preparedStatement.setString(1, this.title);
+            preparedStatement.setString(2, this.description);
+            preparedStatement.setInt(3, this.id);
+            preparedStatement.executeUpdate();
         }
     }
 
-    public static Exercise loadExerciseById(Connection connection, int id) throws SQLException {
+    public static Exercise loadById(Connection connection, int id) throws SQLException {
         String sql = "SELECT * FROM exercise where id=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, id);
@@ -51,7 +70,7 @@ public class Exercise {
         return null;
     }
 
-    public static Exercise[] loadAllExercises(Connection connection) throws SQLException {
+    public static Exercise[] loadAll(Connection connection) throws SQLException {
         ArrayList<Exercise> exercises = new ArrayList<Exercise>();
         String sql = "SELECT * FROM exercise";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -66,7 +85,7 @@ public class Exercise {
         return uArray;
     }
 
-    public void deleteExercise(Connection connection) throws SQLException {
+    public void delete(Connection connection, int id) throws SQLException {
         if (this.id != 0) {
             String sql = "DELETE FROM exercise WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -74,5 +93,14 @@ public class Exercise {
             preparedStatement.executeUpdate();
             this.id = 0;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Exercise{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

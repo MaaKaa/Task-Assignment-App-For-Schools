@@ -10,31 +10,43 @@ public class Group {
     private int id;
     private String name;
 
-    public void saveGroupToDB(Connection connection){
-        try {
-            if (this.id == 0) {
-                String sql = "INSERT INTO user_group (name) VALUES (?);";
-                String[] generatedColumns = { "ID" };
-                PreparedStatement preparedStatement = connection.prepareStatement(sql, generatedColumns);
-                preparedStatement.setString(1, this.name);
-                preparedStatement.executeUpdate();
-                ResultSet resultSet = preparedStatement.getGeneratedKeys();
-                if (resultSet.next()) {
-                    this.id = resultSet.getInt(1);
-                } else {
-                    String sql2 = "UPDATE user_group SET name=? where id = ?";
-                    PreparedStatement preparedStatement2 = connection.prepareStatement(sql);
-                    preparedStatement.setString(1, this.name);
-                    preparedStatement.setInt(2, this.id);
-                    preparedStatement.executeUpdate();
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Group() {}
+
+    public Group(String name) {
+        this.name = name;
     }
 
-    public static Group loadGroupById(Connection connection, int id) throws SQLException {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void saveToDB(Connection connection) throws SQLException{
+
+        if (this.id == 0) {
+            String sql = "INSERT INTO user_group (name) VALUES (?);";
+            String[] generatedColumns = {"ID"};
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, generatedColumns);
+            preparedStatement.setString(1, this.name);
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                this.id = resultSet.getInt(1);
+            }
+        } else {
+            String sql2 = "UPDATE user_group SET name=? where id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql2);
+            preparedStatement.setString(1, this.name);
+            preparedStatement.setInt(2, this.id);
+            preparedStatement.executeUpdate();
+        }
+
+    }
+
+    public static Group loadById(Connection connection, int id) throws SQLException {
         String sql = "SELECT * FROM user_group where id=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, id);
@@ -47,7 +59,7 @@ public class Group {
         return null;
     }
 
-    public static Group[] loadAllGroups(Connection connection) throws SQLException {
+    public static Group[] loadAll(Connection connection) throws SQLException {
         ArrayList<Group> groups = new ArrayList<Group>();
         String sql = "SELECT * FROM user_group";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -61,7 +73,7 @@ public class Group {
         return uArray;
     }
 
-    public void deleteGroup(Connection connection) throws SQLException {
+    public void delete(Connection connection, int id) throws SQLException {
         if (this.id != 0) {
             String sql = "DELETE FROM user_group WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -70,4 +82,14 @@ public class Group {
             this.id = 0;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
+
+
