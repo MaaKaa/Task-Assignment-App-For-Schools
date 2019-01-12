@@ -101,6 +101,6 @@ public class Exercise {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                '}';
+                '}'  + "\n";
     }
 }

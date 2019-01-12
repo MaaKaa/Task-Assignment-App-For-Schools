@@ -185,7 +185,7 @@ public class Solution {
                 ", description='" + description + '\'' +
                 ", exercise=" + exercise +
                 ", user=" + user +
-                '}';
+                '}'  + "\n";
     }
 }
 
