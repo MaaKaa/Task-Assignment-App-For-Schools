@@ -3,27 +3,30 @@ package com.company.model;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Solution {
     private int id;
-    private java.sql.Date created; //zamieniłam z LocalDateTime, ponieważ nie wiem, w jaki sposób do preparedStatement dodać setLocalDateTime?
-    private java.sql.Date updated;
+    private Timestamp created;
+    private Timestamp updated;
     private String description;
     private Object exercise;
     private Object user;
 
+    public static void main(String[] args) {
+
+    }
+
     public Solution(){}
 
-    public Solution(java.sql.Date created, java.sql.Date updated, String description, Object exercise, Object user) {
-        this.created = created;
-        this.updated = updated;
+    public Solution(String description, Object exercise, Object user) {
+        this.created = Timestamp.valueOf(LocalDateTime.now());
+        this.updated = null;
         this.description = description;
         this.exercise = exercise;
         this.user = user;
     }
 
-    public void setCreated(java.sql.Date created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 
@@ -39,16 +42,16 @@ public class Solution {
         this.user = user;
     }
 
-    public void  setUpdated(java.sql.Date updated){
+    public void  setUpdated(Timestamp updated){
         this.updated = updated;
     }
 
-    public java.util.Date getCreated() {
-        return created;
+    public String getCreated() {
+        return created.toString();
     }
 
-    public java.util.Date getUpdated() {
-        return updated;
+    public String getUpdated() {
+        return updated.toString();
     }
 
     public String getDescription() {
@@ -65,30 +68,27 @@ public class Solution {
 
     public void saveToDB(Connection connection) throws SQLException {
         if (this.id == 0) {
-            String sql = "INSERT INTO solution (created, updated, description, exercise_id, users_id) VALUES (?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO solution (created, updated, description, exercise_id, users_id) VALUES (?, ?, ?, ?);";
             String[] generatedColumns = {"ID"};
             PreparedStatement preparedStatement = connection.prepareStatement(sql, generatedColumns);
-/*            preparedStatement.setTimestamp(1, this.created);
-            preparedStatement.setTimestamp(2, this.updated);*/
-            preparedStatement.setDate(1, this.created);
-            preparedStatement.setDate(2, updated);
-            preparedStatement.setString(3, this.description);
-            preparedStatement.setObject(4, this.exercise);
-            preparedStatement.setObject(5, this.user);
+            preparedStatement.setTimestamp(1, this.created);
+            preparedStatement.setString(2, this.description);
+            preparedStatement.setObject(3, this.exercise);
+            preparedStatement.setObject(4, this.user);
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
                 this.id = resultSet.getInt(1);
             }
         } else {
-            String sql2 = "UPDATE solution SET created=?, updated=?, description=?, exercise_id=?, users_id=? where id = ?";
+            String sql2 = "UPDATE solution SET updated=?, description=?, exercise_id=?, users_id=? where id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql2);
-            preparedStatement.setDate(1, this.created);
-            preparedStatement.setDate(2, this.updated);
-            preparedStatement.setString(3, this.description);
-            preparedStatement.setObject(4, this.exercise);
-            preparedStatement.setObject(5, this.user);
-            preparedStatement.setInt(6, this.id);
+            this.updated = Timestamp.valueOf(LocalDateTime.now());
+            preparedStatement.setTimestamp(1, this.updated);
+            preparedStatement.setString(2, this.description);
+            preparedStatement.setObject(3, this.exercise);
+            preparedStatement.setObject(4, this.user);
+            preparedStatement.setInt(5, this.id);
             preparedStatement.executeUpdate();
         }
     }
@@ -101,8 +101,8 @@ public class Solution {
         if (resultSet.next()) {
             Solution loadedSolution = new Solution();
             loadedSolution.id = resultSet.getInt("id");
-            loadedSolution.created = resultSet.getDate("created");
-            loadedSolution.updated = resultSet.getDate("updated");
+            loadedSolution.created = resultSet.getTimestamp("created");
+            loadedSolution.updated = resultSet.getTimestamp("updated");
             loadedSolution.description = resultSet.getString("description");
             loadedSolution.exercise = resultSet.getObject("exercise_id");
             loadedSolution.user = resultSet.getObject("users_id");
@@ -118,8 +118,8 @@ public class Solution {
         while (resultSet.next()) {
             Solution loadedSolution = new Solution();
             loadedSolution.id = resultSet.getInt("id");
-            loadedSolution.created = resultSet.getDate("created");
-            loadedSolution.updated = resultSet.getDate("updated");
+            loadedSolution.created = resultSet.getTimestamp("created");
+            loadedSolution.updated = resultSet.getTimestamp("updated");
             loadedSolution.description = resultSet.getString("description");
             loadedSolution.exercise = resultSet.getObject("exercise_id");
             loadedSolution.user = resultSet.getObject("users_id");
@@ -137,8 +137,8 @@ public class Solution {
         while (resultSet.next()) {
             Solution loadedSolution = new Solution();
             loadedSolution.id = resultSet.getInt("id");
-            loadedSolution.created = resultSet.getDate("created");
-            loadedSolution.updated = resultSet.getDate("updated");
+            loadedSolution.created = resultSet.getTimestamp("created");
+            loadedSolution.updated = resultSet.getTimestamp("updated");
             loadedSolution.description = resultSet.getString("description");
             loadedSolution.exercise = resultSet.getObject("exercise_id");
             loadedSolution.user = resultSet.getObject("users_id");
@@ -156,8 +156,8 @@ public class Solution {
         while (resultSet.next()) {
             Solution loadedSolution = new Solution();
             loadedSolution.id = resultSet.getInt("id");
-            loadedSolution.created = resultSet.getDate("created");
-            loadedSolution.updated = resultSet.getDate("updated");
+            loadedSolution.created = resultSet.getTimestamp("created");
+            loadedSolution.updated = resultSet.getTimestamp("updated");
             loadedSolution.description = resultSet.getString("description");
             loadedSolution.exercise = resultSet.getObject("exercise_id");
             loadedSolution.user = resultSet.getObject("users_id");

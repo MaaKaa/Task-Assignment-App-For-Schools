@@ -1,18 +1,7 @@
 package com.company;
-import com.company.db.DatabaseConnection;
-import com.company.model.Exercise;
-import com.company.model.Group;
-import com.company.model.Solution;
-import com.company.model.User;
-import com.company.programs.AdminWelcome;
 
-import java.sql.*;
-import java.util.Arrays;
-import java.util.Scanner;
-
-import static com.company.db.DatabaseConnection.getEfficientConnection;
-import static com.company.programs.AdminWelcome.*;
-import static com.company.programs.StudentWelcome.studentWelcome;
+import static com.company.programs.AdminPanel.*;
+import static com.company.programs.StudentPanel.studentWelcome;
 
 public class Main {
 
