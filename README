@@ -1,9 +1,14 @@
 Simple task management application, dedicated to schools.
 
-The app contains classes: User, Group, Exercise and Solution. Every class implements methods: loadAll, loadById, delete and saveToDb.
+The app contains classes: User, Group, Exercise and Solution. Every class implements methods allowing a communication with the database: loadAll, loadById, delete and saveToDb.
 In addition, the class Solution implements method loadAllByUserId (load all solutions published by a particular user) and loadAllByExerciseId (load all solutions added to a particular exercise, sorted from the newest ones), and the class User implements a method loadAllByGroupId (load all users assigned to a particular group).
 
 How it works?
+    • There are users-students that can be assigned to groups. One user can be assigned to one group only.
+    • The admin can assign a task to a user.
+    • User can add a solution to assigned task. A task can have many solutions.
+
+he app consists of two programs:
 ADMIN PROGRAM
 Program 1: User management
 Program displays on the console a list of all users and the menu:
@@ -72,3 +77,9 @@ The "created" field will be filled in automatically.
 - in the case of selecting "quit" - quit the programme.
 For the sake of simplicity, the added solution cannot be removed or edited.
 If you try to add a solution that already exists, the program displays the appropriate a message.
+
+Used tools/frameworks: 
+    • Java
+    • Design pattern: Active Record
+    • Database: MySQL (Workbench)
+    • IDE: IntelliJ
