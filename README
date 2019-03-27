@@ -83,7 +83,8 @@ The "created" field will be filled in automatically.
 - in case of selecting "quit" - quit the programme.
 If a user try to add a solution that already exists, the program displays the appropriate a message.
 
-Used tools/frameworks: 
+***
+USED TOOLS/FRAMEWORKS:
     • Java
     • Design pattern: Active Record
     • Database: MySQL (Workbench)
