@@ -1,85 +1,94 @@
-Simple task management application, dedicated to schools.
+Simple console task assignment application, dedicated to schools.
 
-The app contains classes: User, Group, Exercise and Solution. Every class implements methods allowing a communication with the database: loadAll, loadById, delete and saveToDb.
-In addition, the class Solution implements method loadAllByUserId (load all solutions published by a particular user) and loadAllByExerciseId (load all solutions added to a particular exercise, sorted from the newest ones), and the class User implements a method loadAllByGroupId (load all users assigned to a particular group).
+HOW IT WORKS?
+Imagine a school: there are teachers, students in classes and tasks to be completed by students. 
+This app allows:
+  A). teachers (admin):
+    • to create a class (group).
+    • to create an account for a student (user) and to assign a student to a class (group). 
+    • to create a task (exercise),
+    • to assign a task to a student (user).
+  B). students (users):
+    • to add a solution to the task assigned to him/her. 
+    
+Note:
+    • One user can be assigned to one group only.
+    • One task can have many solutions.
+    • For the sake of simplicity, the added solution cannot be removed or edited.
 
-How it works?
-    • There are users-students that can be assigned to groups. One user can be assigned to one group only.
-    • The admin can assign a task to a user.
-    • User can add a solution to assigned task. A task can have many solutions.
-
-he app consists of two programs:
+The app consists of two programs:
 ADMIN PROGRAM
 Program 1: User management
-Program displays on the console a list of all users and the menu:
+Program displays on the console a list of all the users saved in the database and the menu:
 "Select one of the options:
-add - add a user,
-edit - edit the user,
-delete - delete a user,
-quit - termination of the programme.
+    • add - add a user,
+    • edit - edit the user,
+    • delete - delete a user,
+    • quit - quit the programme."
 
 After entering and approving one of the options, the program asks for the relevant data:
-- if "add" is selected, the program will ask for all data available in the class User, except id,
-- in the case of "edit" - all data available in the class User,
-- when "delete" is selected, it will ask for id of the user to be removed.
-
-After executing any of the options, the program displays the menu again.
+- in case of selecting "add" - the program asks for all the data necessary to create a User (except id),
+- in case of selecting "edit" - the program asks for providing new data to all the fields available in the class User,
+- in case of selecting "delete" - the program asks for the id of the user to be removed.
+After executing any of the above options, the program displays the menu again.
 
 Program 2: Task management
-Program displays on the console a list of all tasks and the menu:
+Program displays on the console a list of all the tasks saved in the database and the menu:
 "Select one of the options:
-add - add a task,
-edit - edit the task,
-delete - edit the task,
-quit - quit the programme.
+    • add - add a task,
+    • edit - edit the task,
+    • delete - edit the task,
+    • quit - quit the programme."
 
-After entering and approving the appropriate option, the program will ask for the following data:
-- in the case of selecting "add" - all data available in Exercise class (without id),
-- in the case of selecting "edit" - all data available in Exercise class, including id,
-- in the case of selecting "delete" - the program asks for the id of the task to be removed.
-After executing any of the options, the program will display the menu again.
+After entering and approving the appropriate option, the program asks for the following data:
+- in case of selecting "add" - the program asks for all the data necessary to create an Exercise (without id),
+- in case of selecting "edit" - the program asks for providing new data to all the fields available in the class Exercise, 
+- in case of selecting "delete" - the program asks for the id of the task to be removed.
+After executing any of the options, the program displays the menu again.
 
 Program 3: Group management
-Program displays on the console a list of all groups and the menu:
+Program displays on the console a list of all the groups saved in the database and the menu:
 "Select one of the options:
-add - add a group,
-edit - editing a group,
-delete - edit the group,
-quit - quit the programme.
-After entering and approving the appropriate option the programme will ask for data and perform the appropriate
-operations:
-- in the case of selecting "add" - all data available in the class Group, without id.
-- in the case of selecting "edit" - all data in the class Group, including id,
-- in the case of selecting "delete" - id of the group to be deleted.
+    • add - add a group,
+    • edit - editing a group,
+    • delete - edit the group,
+    • quit - quit the programme."
+After entering and approving the appropriate option the programme asks for the following data:
+- in case of selecting "add" - the program asks for all the data necessary to create a Group (without id),
+- in case of selecting "edit" - the program asks for providing new data to all the fields available in the class Group,
+- in case of selecting "delete" - the program asks for the id of the group to be deleted.
 After executing any of the options, the program will display the menu again.
 
 Program 4: Task assignment
 Program displays in the console:
 "Select one of the options:
-add - assign a task to a users,
-view - view solutions published by a particular user,
-quit - quit the programme.
-After entering and confirming the appropriate option, the program will ask for additional data:
-- in the case of selecting "add" - it displays a list of all users, asks for the User id, then it displays a list of all tasks and ask for the id of the task to be assigned to the chosen user, and then creates and saves an object of the Solution type.
+    • add - assign a task to a users,
+    • view - view solutions published by a particular user,
+    • quit - quit the programme."
+After entering and confirming the appropriate option, the program asks for the following data:
+- in case of selecting "add" - it displays a list of all users, asks for the User id, then it displays a list of all the tasks and ask for the id of the task to be assigned to the chosen user, and then creates and saves an object of the Solution type.
 The "created" field is filled in automatically, and the "updated" field and "description" field are left empty.
-- in the case of selecting "view" - the program asks for the id of the user whose solutions we want to see.
+- in case of selecting "view" - the program asks for the id of the user whose solutions we want to see.
 After executing any of the options, the program will display the menu again.
 
 USER PRPGRAM
 Program accepts one parameter - the User ID - given when starting from a console or IDE (public static void main(String[] args)).
 Program displays in the console:
 "Select one of the options:
-- add - add a solution,
-- view - view your solutions.
-After selecting the appropriate option, the program asks for data and performs the appropriate operation:
-- in the case of selecting "add" - program displays a list of tasks assigned to this user, that don't have solutions yet and then asks for the id of the task to which a user wants to add a solution.
+    • add - add a solution,
+    • view - view your solutions."
+After selecting the appropriate option, the program asks for the following data:
+- in case of selecting "add" - program displays a list of tasks assigned to this user, that don't have solutions yet and then asks for the id of the task to which a user wants to add a solution.
 The "created" field will be filled in automatically.
-- in the case of selecting "quit" - quit the programme.
-For the sake of simplicity, the added solution cannot be removed or edited.
-If you try to add a solution that already exists, the program displays the appropriate a message.
+- in case of selecting "quit" - quit the programme.
+If a user try to add a solution that already exists, the program displays the appropriate a message.
 
 Used tools/frameworks: 
     • Java
     • Design pattern: Active Record
     • Database: MySQL (Workbench)
     • IDE: IntelliJ
+    
+The app contains classes: User, Group, Exercise and Solution. Every class implements methods allowing a communication with the database: loadAll, loadById, delete and saveToDb.
+In addition, the class Solution implements methods: loadAllByUserId (load all solutions published by a particular user) and loadAllByExerciseId (load all solutions added to a particular exercise, sorted from the newest ones), and the class User implements a method loadAllByGroupId (load all users assigned to a particular group).
+
